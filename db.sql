@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Mer 08 Avril 2020 à 16:09
+-- Généré le :  Ven 10 Avril 2020 à 14:31
 -- Version du serveur :  5.7.28-0ubuntu0.18.04.4
 -- Version de PHP :  7.2.24-0ubuntu0.18.04.1
 
@@ -47,8 +47,17 @@ CREATE TABLE `users` (
   `nom` varchar(40) NOT NULL,
   `prenom` varchar(40) NOT NULL,
   `numero_compte` int(20) NOT NULL,
-  `solde_compte` int(40) NOT NULL
+  `solde_compte` int(40) NOT NULL,
+  `mot_de_passe` varchar(42) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `users`
+--
+
+INSERT INTO `users` (`id_user`, `login`, `profil_user`, `nom`, `prenom`, `numero_compte`, `solde_compte`, `mot_de_passe`) VALUES
+(5, 'lacouran', 'client', 'jean', 'dupont', 3567, 2000, 'aa36dc6e81e2ac7ad03e12fedcb6a2c0'),
+(10, 'admin', 'employe', 'flo', 'vlad', 999, 998, '21232f297a57a5a743894a0e4a801fc3');
 
 --
 -- Index pour les tables exportées
@@ -81,7 +90,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(30) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- Contraintes pour les tables exportées
 --

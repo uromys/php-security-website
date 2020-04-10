@@ -12,7 +12,7 @@ if (isset($_POST['form'])) {
     $con=connexion();
     $login =  $_POST['login'];
     //echo $login+$password;
-    $password =  $_POST['password'];
+    $password =  md5($_POST['password']);
       //echo ($login);
       //echo ($password);
 
