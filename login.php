@@ -12,48 +12,37 @@ include_once 'acessdb.php';
 if (isset($_POST['form'])) {
     $con=connexion();
     $login =  $_POST['login'];
-    //echo $login+$password;
-    $password =  ($_POST['password']);
-      //echo ($login);
-      //echo ($password);
-
-
-      $password=password_hash($_POST['password'], PASSWORD_BCRYPT, [12]);
-
-      //echo ($password);
-
-
-   //$query='SELECT * FROM users WHERE login =? and mot_de_passe =?' ;
+    $password=password_hash($_POST['password'], PASSWORD_BCRYPT, [12]);
     $query='SELECT * FROM users WHERE login =?' ;
-
    $request = $con->prepare($query);
-
    try {
-
        $request->execute([$login]);
-       //$request=$con->q]uery($query);
-
-
-
         }
-
    catch(Exception $ex) {
        die('Erreur : ' . $ex->getMessage());
    }
+$numberofTry=counttry($login);
+if($numberofTry<=4){
       $row =  $request->fetch();
     if (password_verify($_POST['password'], $row['mot_de_passe'])) {// loging sucess
-    //echo("wtf2");
-
         $_SESSION['id_user'] = $row['id_user'];
         $_SESSION['usr_name'] = $row['nom'];
         $_SESSION['profil_user'] = $row['profil_user'];
-        $targetmail="lacouranaelanim@gmail.com";
+        //$targetmail="lacouranaelanim@gmail.com";
         header("Location:index2.php");
 
-    } else {
-        $errormsg = "Incorrect login or Password";
-    }
+    } else {// on affiche une erreur, et on rajoute une tentative de connexion a notre BDD pour empecher le brute force
+          $errormsg = "Incorrect login or Password";
 
+          inserttry($login);
+        if($numberofTry<=3&& $numberofTry>0 ){
+          //echo $numberofTry;
+          $tryleft=4-$numberofTry;
+          $errormsg.="<br>".$tryleft ." try left";
+
+        }
+}
+}
 }
 ?>
 
@@ -99,15 +88,24 @@ if (isset($_POST['form'])) {
                         <label for="name">Password</label>
                         <input type="password" name="password" placeholder="Your Password" required class="form-control" />
                     </div>
-
                     <div class="form-group">
-                        <input type="submit" name="form" value="form" class="btn btn-primary" />
+<?php if ($numberofTry<=3)
+{
+
+  echo '<input type="submit" name="form" value="loging" class="btn btn-primary" />';
+}else{
+  $errormsg.="<br> wait 1 minute before trying to reconnect";
+}
+
+ ?>
+
                     </div>
                 </fieldset>
             </form>
             <span class="text-danger"><?php if (isset($errormsg)) { echo $errormsg; } ?></span>
         </div>
     </div>
+
 
 </div>
 

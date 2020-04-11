@@ -43,3 +43,33 @@ function searchemail($id){
   }
 
 }
+function inserttry($logintry){
+  try {
+    $con=connexion();
+    $query='insert  into  count_login(`login_try`,`date_try`)   values (?,?)';
+    $request = $con->prepare($query);
+    $request->execute([$logintry,date("Y-m-d H:i:s")]);
+    return 1;
+  }catch(Exception $ex) {
+      die('Erreur : ' . $ex->getMessage());
+  }
+}
+
+
+
+function counttry($logintry){
+  try {
+  $con=connexion();
+  $query ='SELECT count(`login_try`)as total FROM count_login WHERE  `date_try` > (NOW() - INTERVAL 1 MINUTE)AND login_try=?';
+  $request = $con->prepare($query);
+  $request->execute([$logintry]);
+  if ($row =  $request->fetch()){
+    return $row['total'];
+  }
+  }catch(Exception $ex) {
+      die('Erreur : ' . $ex->getMessage());
+
+
+    }
+
+}

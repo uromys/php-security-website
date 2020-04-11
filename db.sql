@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Sam 11 Avril 2020 à 10:23
+-- Généré le :  Sam 11 Avril 2020 à 18:57
 -- Version du serveur :  5.7.28-0ubuntu0.18.04.4
 -- Version de PHP :  7.2.24-0ubuntu0.18.04.1
 
@@ -19,6 +19,31 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `projetsr03`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `count_login`
+--
+
+CREATE TABLE `count_login` (
+  `login_try` varchar(40) NOT NULL,
+  `date_try` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `count_login`
+--
+
+INSERT INTO `count_login` (`login_try`, `date_try`) VALUES
+('a', '2020-04-11 18:40:27'),
+('a', '2020-04-11 18:40:30'),
+('a', '2020-04-11 18:40:33'),
+('a', '2020-04-11 18:46:20'),
+('admin', '2020-04-11 17:45:50'),
+('admin', '2020-04-11 17:45:54'),
+('admin', '2020-04-11 17:54:08'),
+
 
 -- --------------------------------------------------------
 
@@ -82,6 +107,12 @@ INSERT INTO `users` (`id_user`, `login`, `profil_user`, `nom`, `prenom`, `numero
 --
 -- Index pour les tables exportées
 --
+
+--
+-- Index pour la table `count_login`
+--
+ALTER TABLE `count_login`
+  ADD PRIMARY KEY (`login_try`,`date_try`);
 
 --
 -- Index pour la table `email`
