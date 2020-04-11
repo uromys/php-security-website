@@ -1,36 +1,35 @@
 <?php
 
-session_start();
 
 if(isset($_SESSION['usr_id'])!="") {
     header("Location: index.php");
 }
 
 include_once 'acessdb.php';
+include_once 'sendmail.php';
+//envoyer le mail
 
-//check if form is submitted
+
+
+
+
 if (isset($_POST['form'])) {
     $con=connexion();
     $login =  $_POST['login'];
     //echo $login+$password;
-    $password =  ($_POST['password']);
+    $password =  md5($_POST['password']);
       //echo ($login);
       //echo ($password);
 
-
-      $password=password_hash($_POST['password'], PASSWORD_BCRYPT, [12]);
-
-      //echo ($password);
-
-
-   //$query='SELECT * FROM users WHERE login =? and mot_de_passe =?' ;
-    $query='SELECT * FROM users WHERE login =?' ;
-
+  //  $result = mysqli_query($con, "SELECT * FROM users WHERE login = '" . $login. "' and mot_de_passe = '" . md5($password) . "'"); //md5 of password is stored instead of war string
+   $query='SELECT * FROM users WHERE login =? and mot_de_passe =?' ;
+    //$query1="SELECT * FROM users" ;
+    //$query="SELECT * FROM users WHERE login ='lacouran' and mot_de_passe ='mdp'";
    $request = $con->prepare($query);
 
    try {
 
-       $request->execute([$login]);
+       $request->execute([$login,$password]);
        //$request=$con->q]uery($query);
 
 
@@ -40,14 +39,17 @@ if (isset($_POST['form'])) {
    catch(Exception $ex) {
        die('Erreur : ' . $ex->getMessage());
    }
-      $row =  $request->fetch();
-    if (password_verify($_POST['password'], $row['mot_de_passe'])) {// loging sucess
-    //echo("wtf2");
 
+    if ($row =  $request->fetch()) {// loging sucess
+    //echo("wtf2");
         $_SESSION['id_user'] = $row['id_user'];
         $_SESSION['usr_name'] = $row['nom'];
         $_SESSION['profil_user'] = $row['profil_user'];
         $targetmail="lacouranaelanim@gmail.com";
+
+
+
+
         header("Location:index2.php");
 
     } else {
