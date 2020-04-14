@@ -9,7 +9,22 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+SET GLOBAL event_scheduler = ON ;
 
+/*
+  If it was real
+CREATE EVENT deletealldata
+  ON SCHEDULE EVERY '10' MINUTE
+  STARTS GETDATE()
+DO
+
+delete   from count_login
+WHERE date_try  < now() - interval 10 minute
+
+
+
+
+*/
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
