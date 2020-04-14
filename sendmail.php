@@ -44,7 +44,7 @@ function sendingmail($targetmail){
       echo 'Mailer Error: ' . $mail->ErrorInfo;
       return 0;
   } else {
-      echo 'Message has been sent';
+      //echo 'Message has been sent';
       return $randomizedstring;
   }
 }

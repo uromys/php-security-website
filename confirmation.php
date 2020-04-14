@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 if(isset($_SESSION['usr_id'])!="") {
     header("Location: index.php");
@@ -8,55 +8,36 @@ if(isset($_SESSION['usr_id'])!="") {
 include_once 'acessdb.php';
 include_once 'sendmail.php';
 //envoyer le mail
-
-
-
-
-
-if (isset($_POST['form'])) {
-    $con=connexion();
-    $login =  $_POST['login'];
-    //echo $login+$password;
-    $password =  md5($_POST['password']);
-      //echo ($login);
-      //echo ($password);
-
-  //  $result = mysqli_query($con, "SELECT * FROM users WHERE login = '" . $login. "' and mot_de_passe = '" . md5($password) . "'"); //md5 of password is stored instead of war string
-   $query='SELECT * FROM users WHERE login =? and mot_de_passe =?' ;
-    //$query1="SELECT * FROM users" ;
-    //$query="SELECT * FROM users WHERE login ='lacouran' and mot_de_passe ='mdp'";
-   $request = $con->prepare($query);
-
-   try {
-
-       $request->execute([$login,$password]);
-       //$request=$con->q]uery($query);
-
-
-
-        }
-
-   catch(Exception $ex) {
-       die('Erreur : ' . $ex->getMessage());
-   }
-
-    if ($row =  $request->fetch()) {// loging sucess
-    //echo("wtf2");
-        $_SESSION['id_user'] = $row['id_user'];
-        $_SESSION['usr_name'] = $row['nom'];
-        $_SESSION['profil_user'] = $row['profil_user'];
-        $targetmail="lacouranaelanim@gmail.com";
-
-
-
-
-        header("Location:index2.php");
-
-    } else {
-        $errormsg = "Incorrect login or Password";
-    }
+if( empty($_SESSION['$ArrayOfStringGenerated'])){ //  true only when we enter the page
+  //echo " genre";
+  $mail=searchemail($_SESSION['id_user']);
+  $_SESSION['mail']=$mail;
+  $_SESSION['$ArrayOfStringGenerated'] = array();
+  $StringGeneratedByEmail = sendingmail($mail);
+  array_push($_SESSION['$ArrayOfStringGenerated'],$StringGeneratedByEmail);
+  // we store in an array if the user fail the first time and select an older  mail .
+}
+if(isset($_POST['sendmail'])){// button sendingmail pressed , we don't initialize
+$StringGeneratedByEmail = sendingmail($_SESSION['mail']);
+array_push($_SESSION['$ArrayOfStringGenerated'],$StringGeneratedByEmail);
 
 }
+
+if (isset($_POST['form'])){
+  //echo $_POST['confirmation'];
+  foreach ($_SESSION['$ArrayOfStringGenerated'] as $StringGeneratedByEmail ){
+    //  echo $StringGeneratedByEmail; // if you are too tired to check your mail or write it
+
+    if ( $StringGeneratedByEmail==$_POST['confirmation'] ){
+          header("Location:lobby.php");
+
+    }else {
+      $errormsg = "Incorrect  confirmation ,check your spam ";
+    }
+  }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +48,7 @@ if (isset($_POST['form'])) {
 </head>
 <body>
 
-<nav class="navbar navbar-default" role="navigation">  <!--for smaller screens like mobile-->
+<nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar1">
@@ -90,20 +71,18 @@ if (isset($_POST['form'])) {
         <div class="col-md-4 col-md-offset-4 well">
             <form role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="loginform">
                 <fieldset>
-                    <legend>Login</legend>
+                    <legend>Enter the password send at <?php echo $mail;?></legend>
 
                     <div class="form-group">
-                        <label for="name">login</label>
-                        <input type="text" name="login" placeholder="Your login" required class="form-control" />
+                        <label for="name">confirmation</label>
+                        <input type="text" name="confirmation" placeholder=" the 8 characters send by mail"  class="form-control" />
                     </div>
 
-                    <div class="form-group">
-                        <label for="name">Password</label>
-                        <input type="password" name="password" placeholder="Your Password" required class="form-control" />
-                    </div>
+
 
                     <div class="form-group">
-                        <input type="submit" name="form" value="form" class="btn btn-primary" />
+                        <input type="submit" name="form" value="send" class="btn btn-primary" />
+                        <input type="submit" name="sendmail" value="send another mail" class="btn btn-primary" />
                     </div>
                 </fieldset>
             </form>

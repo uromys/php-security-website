@@ -29,7 +29,7 @@ if($numberofTry<=4){
         $_SESSION['usr_name'] = $row['nom'];
         $_SESSION['profil_user'] = $row['profil_user'];
         //$targetmail="lacouranaelanim@gmail.com";
-        header("Location:index2.php");
+        header("Location:confirmation.php");
 
     } else {// on affiche une erreur, et on rajoute une tentative de connexion a notre BDD pour empecher le brute force
           $errormsg = "Incorrect login or Password";
