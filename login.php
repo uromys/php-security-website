@@ -1,34 +1,24 @@
 <?php
 
 session_start();
-
-if(isset($_SESSION['usr_id'])!="") {
-    header("Location: index.php");
-}
-
 include_once 'acessdb.php';
+
 
 //check if form is submitted
 if (isset($_POST['form'])) {
     $con=connexion();
-    $login =  $_POST['login'];
+    $login =  htmlspecialchars($_POST['login'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
     $password=password_hash($_POST['password'], PASSWORD_BCRYPT, [12]);
-    $query='SELECT * FROM users WHERE login =?' ;
-   $request = $con->prepare($query);
-   try {
-       $request->execute([$login]);
-        }
-   catch(Exception $ex) {
-       die('Erreur : ' . $ex->getMessage());
-   }
+    $request=GetUser($login);
 $numberofTry=counttry($login);
 if($numberofTry<=4){
       $row =  $request->fetch();
     if (password_verify($_POST['password'], $row['mot_de_passe'])) {// loging sucess
         $_SESSION['id_user'] = $row['id_user'];
         $_SESSION['usr_name'] = $row['nom'];
+          $_SESSION['surname'] =$row['prenom'];
         $_SESSION['profil_user'] = $row['profil_user'];
-        //$targetmail="lacouranaelanim@gmail.com";
+        //we put the " sensible" data only after confirmation
         header("Location:confirmation.php");
 
     } else {// on affiche une erreur, et on rajoute une tentative de connexion a notre BDD pour empecher le brute force

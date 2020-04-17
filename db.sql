@@ -12,6 +12,7 @@ SET time_zone = "+00:00";
 SET GLOBAL event_scheduler = ON ;
 
 /*
+
   If it was real
 CREATE EVENT deletealldata
   ON SCHEDULE EVERY '10' MINUTE

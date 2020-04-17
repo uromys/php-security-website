@@ -1,5 +1,6 @@
-<Location /onlyserver>
-order deny,allow
-deny from all
-allow from 127.0.0.1
-</Location>
+Options -Indexes
+
+<FilesMatch  "config\.php|function\.php|include\.php">
+  Order allow,deny
+  Deny from all
+</FilesMatch>

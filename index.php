@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include_once 'acessdb.php';
@@ -33,6 +32,7 @@ include_once 'acessdb.php';
                 <li><a href="logout.php">Log Out</a></li>
                 <?php } else { ?>
                 <li><a href="login.php">Login</a></li>
+    
 
                 <?php } ?>
             </ul>
