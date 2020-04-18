@@ -16,7 +16,9 @@ $requestGet=true;
 
 $Sender = GetUserById($Get);
 $AccomptSending=$Sender["numero_compte"];
+$MoneyOfThisAccompt=$Sender["solde_compte"];
 echo  "<h2> You are using this  Accompt Number   to do the  transfert  ".$AccomptSending ."</h2>";
+echo  "<h2> This accompt has  ".$MoneyOfThisAccompt ."</h2>";
 
 }
 

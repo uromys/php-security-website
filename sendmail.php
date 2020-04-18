@@ -2,7 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
+if(!isset($_SESSION['id_user'])) {
+    header("Location: index.php");
+}
 // Load Composer's autoloader
 require 'vendor/autoload.php';
 //include_once 'acessdb.php';

@@ -1,5 +1,5 @@
 <?php
-//connexion
+
 
 function connexion() {
     try {

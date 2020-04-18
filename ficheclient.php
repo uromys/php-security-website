@@ -1,14 +1,12 @@
 <?php
-include_once 'include.php';
-
-
+session_start();
 if($_SESSION['profil_user']!="employe"){
 header("Location: accueil.php");
 
-
+include_once 'include.php';
 
 }
-$_SESSION['allClient']= GetAllUser()->fetchAll();
+//$_SESSION['allClient']= GetAllUser()->fetchAll();
 
 ?>
 

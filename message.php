@@ -43,7 +43,7 @@ function openInNewTab(url) {
               foreach ($_SESSION['messagesRecus'] as $cle => $message) {
 
                 $Sender = GetUserById($message['id_user_from']);
-                $jscode = 'openInNewTab('. json_encode("infoclient.php") . ');';
+                $jscode = 'openInNewTab('. json_encode("ficheclient.php") . ');';
 
                 echo '<tr>';
                 echo '<td onclick="' . htmlspecialchars($jscode) . '">' . $Sender['nom'] .' '. $Sender['prenom'] .' </td>';
@@ -55,6 +55,13 @@ function openInNewTab(url) {
                ?>
                </tbody>
             </table>
+          </div>
+
+
+          <div class="container-fluid" id="info">
+              <ul class="nav navbar-nav navbar-center">
+                  <button class="btn btn-primary" onclick="window.location.href = 'sendmessage.php';">New Message</button>
+              </ul>
           </div>
 
         </article>

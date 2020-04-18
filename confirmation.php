@@ -52,7 +52,9 @@ $UserString=htmlspecialchars($_POST['confirmation'],ENT_COMPAT | ENT_HTML5 |ENT_
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
 </head>
 <body>
+  <div class="bg">
 
+  <p class="py-5 text-center"></p>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -96,8 +98,6 @@ $UserString=htmlspecialchars($_POST['confirmation'],ENT_COMPAT | ENT_HTML5 |ENT_
     </div>
 
 </div>
-
-<script src="js/jquery-1.10.2.js"></script>
-<script src="js/bootstrap.min.js"></script>
+</div>
 </body>
 </html>

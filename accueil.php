@@ -11,7 +11,9 @@ include_once 'include.php';
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
 </head>
 <body>
+  <div class="bg">
 
+  <p class="py-5 text-center"></p>
 
     <section>
 
@@ -43,12 +45,23 @@ include_once 'include.php';
                 <button class="btn btn-primary" onclick="window.location.href = 'logout.php';">logout</button>
                 <button class="btn btn-primary" onclick="window.location.href = 'virement.php';">virement</button>
                 <button class="btn btn-primary" onclick="window.location.href = 'message.php';">Message</button>
+                  <?php
+                  if ($_SESSION["profil_user"]=="employe"){
+                      echo "<button class='btn btn-primary'";
+                      echo 'onclick="window.location.href =\'ficheclient.php\';"';
+                      echo ">infoclient</button>";
+
+
+                  }
+
+
+                 ?>
             </ul>
         </div>
 
 
 
     </section>
-
+</div>
 </body>
 </html>

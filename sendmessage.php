@@ -3,12 +3,8 @@
 include_once 'include.php';
 if (isset($_POST['form'])){
   $receiver=htmlspecialchars($_POST['to'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
-  echo $receiver;
   $content=htmlspecialchars($_POST['content'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
-  echo $content;
   $subject=htmlspecialchars($_POST['subjet'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
-echo $subject;
-echo $_SESSION['id_user'];
     if(insertmsg($_SESSION['id_user'],$receiver,$content,$subject)==1){
         $msg="Message has been sent";
     }else{
@@ -23,7 +19,7 @@ echo $_SESSION['id_user'];
 <form role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="sendmessage">
         <div class="fieldset">
           <div class="fieldset_label">
-            <span>Send a message</span>
+            <h1>Send a message</h1>
           </div>
           <div class="field">
             <label>To </label>
@@ -54,8 +50,16 @@ echo $_SESSION['id_user'];
 
           ?>
 
+
+
           </div>
     </form>
     <div>
       <span class="text-info"><?php if (isset($msg)) { echo $msg; } ?></span>
+    </div>
+
+    <div class="container-fluid" id="info">
+        <ul class="nav navbar-nav navbar-center">
+            <button class="btn btn-primary" onclick="window.location.href = 'message.php';">Your Messages</button>
+        </ul>
     </div>

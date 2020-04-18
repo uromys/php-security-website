@@ -18,7 +18,7 @@ if($numberofTry<=4){
         $_SESSION['usr_name'] = $row['nom'];
           $_SESSION['surname'] =$row['prenom'];
         $_SESSION['profil_user'] = $row['profil_user'];
-        //we put the " sensible" data only after confirmation
+  
         header("Location:confirmation.php");
 
     } else {// on affiche une erreur, et on rajoute une tentative de connexion a notre BDD pour empecher le brute force
@@ -39,11 +39,14 @@ if($numberofTry<=4){
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Login</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" >
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
 </head>
 <body>
+  <div class="bg">
 
+  <p class="py-5 text-center"></p>
 <nav class="navbar navbar-default" role="navigation">  <!--for smaller screens like mobile-->
     <div class="container-fluid">
         <div class="navbar-header">
@@ -99,7 +102,6 @@ if($numberofTry<=4){
 
 </div>
 
-<script src="js/jquery-1.10.2.js"></script>
-<script src="js/bootstrap.min.js"></script>
+</div>
 </body>
 </html>
