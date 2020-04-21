@@ -1,18 +1,27 @@
 <?php
 
 include_once 'include.php';
-if (isset($_POST['form'])){
-  $receiver=htmlspecialchars($_POST['to'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
-  $content=htmlspecialchars($_POST['content'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
-  $subject=htmlspecialchars($_POST['subjet'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
-    if(insertmsg($_SESSION['id_user'],$receiver,$content,$subject)==1){
-        $msg="Message has been sent";
-    }else{
-        $msg="A problem has occured";
-    }
 
 
+$token=htmlspecialchars($_SESSION['token']);
+
+if (isset($_SESSION['token']) AND isset($token) AND !empty($_SESSION['token']) AND !empty($token)) {
+
+    if ($_SESSION['token'] == $_POST['token']){
+      if (isset($_POST['form'])){
+        $receiver=htmlspecialchars($_POST['to'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
+        $content=htmlspecialchars($_POST['content'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
+        $subject=htmlspecialchars($_POST['subjet'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
+          if(insertmsg($_SESSION['id_user'],$receiver,$content,$subject)==1){
+              $msg="Message has been sent";
+          }else{
+              $msg="A problem has occured";
+          }
+        }
+
+  }
 }
+
 ?>
 
 
@@ -44,6 +53,7 @@ if (isset($_POST['form'])){
             <label>Message </label>
             <textarea class=form-control name="content" rows="4"></textarea>
             <input type="hidden" value="<?php echo $_SERVER['REMOTE_ADDR'];?>" name="message"/>
+            <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>" />
           </div>
           <button type="submit" name="form" class="btn btn-primary" >Send</button>
           <?php

@@ -1,7 +1,6 @@
 <?php
 include_once 'include.php';
 $_SESSION['messagesRecus']= GetmyMessage($_SESSION['id_user'])->fetchAll();
-
 ?>
 
 <!doctype html>

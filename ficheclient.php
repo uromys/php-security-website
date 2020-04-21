@@ -3,10 +3,10 @@ session_start();
 if($_SESSION['profil_user']!="employe"){
 header("Location: accueil.php");
 
-include_once 'include.php';
 
 }
 //$_SESSION['allClient']= GetAllUser()->fetchAll();
+include_once 'include.php';
 
 ?>
 
@@ -45,7 +45,7 @@ function openInNewTab(url) {
               <tbody>
               <?php
 
-              foreach ($_SESSION['allClient'] as $cle => $client) {
+              foreach ($_SESSION['listeAllUsers'] as $cle => $client) {
                 $thisClient=$client['id_user'];
                 $jscode = 'openInNewTab('. json_encode("virement.php?id=$thisClient") . ');';
 

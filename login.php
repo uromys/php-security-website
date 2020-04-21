@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+
 include_once 'acessdb.php';
 
 
@@ -18,7 +19,7 @@ if($numberofTry<=4){
         $_SESSION['usr_name'] = $row['nom'];
           $_SESSION['surname'] =$row['prenom'];
         $_SESSION['profil_user'] = $row['profil_user'];
-  
+
         header("Location:confirmation.php");
 
     } else {// on affiche une erreur, et on rajoute une tentative de connexion a notre BDD pour empecher le brute force

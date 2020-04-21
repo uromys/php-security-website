@@ -1,11 +1,21 @@
 <?php
+/*
+2 factors authentification with a string generated  and sent by mail
+
+
+*/
 session_start();
 if(!isset($_SESSION['id_user'])) {
     header("Location: index.php");
 }
 
+
 include_once 'acessdb.php';
 include_once 'sendmail.php';
+
+//Token to protect against CSRF
+$token = generateRandomString(32);
+$_SESSION['token'] = $token;
 //envoyer le mail
   $mail=searchemail($_SESSION['id_user']);
 if( empty($_SESSION['$ArrayOfStringGenerated'])){ //  true only when we enter the page
@@ -21,26 +31,31 @@ array_push($_SESSION['$ArrayOfStringGenerated'],$StringGeneratedByEmail);
 
 }
 
-if (isset($_POST['form'])){
-$UserString=htmlspecialchars($_POST['confirmation'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
-  foreach ($_SESSION['$ArrayOfStringGenerated'] as $StringGeneratedByEmail ){
-    //echo $StringGeneratedByEmail; echo "  ";// if you are too tired to check your mail or write it
 
-    if ( $StringGeneratedByEmail==trim($UserString)){
-       $request=GetAllContentOfaUser($_SESSION['id_user']);
-       $row =  $request->fetch();
-          $_SESSION['connected']=1;
-          $_SESSION['login']=$row['login'];
-          $_SESSION['numero_compte'] = $row['numero_compte'];
-          $_SESSION['solde_compte'] = $row['solde_compte'];
-          $_SESSION["listeAllUsers"] = GetAllUser()->fetchAll();
-          //print_r($_SESSION["listeAllUsers"]);
-          header("Location:accueil.php");
-    }else {
-      $errormsg = "Incorrect  confirmation ,check your spam ";
-    }
-  }
-}
+//echo $_POST['token'];
+//echo $_SESSION['token'];
+if (isset($_POST['form'])){
+        $UserString=htmlspecialchars($_POST['confirmation'],ENT_COMPAT | ENT_HTML5 |ENT_QUOTES);
+          foreach ($_SESSION['$ArrayOfStringGenerated'] as $StringGeneratedByEmail ){
+            //echo $StringGeneratedByEmail; echo "  ";// if you are too tired to check your mail or write it
+
+            if ($StringGeneratedByEmail==trim($UserString)){//{
+               $request=GetAllContentOfaUser($_SESSION['id_user']);
+               $row =  $request->fetch();
+                  $_SESSION['connected']=1;
+                  $_SESSION['login']=$row['login'];
+                  $_SESSION['numero_compte'] = $row['numero_compte'];
+                  $_SESSION['solde_compte'] = $row['solde_compte'];
+                  $_SESSION["listeAllUsers"] = GetAllUser()->fetchAll();
+                  //print_r($_SESSION["listeAllUsers"]);
+                  header("Location:accueil.php");
+            }else {
+              $errormsg = "Incorrect  confirmation ,check your spam ";
+            }
+          }
+        }
+
+
 
 
 ?>
@@ -83,12 +98,14 @@ $UserString=htmlspecialchars($_POST['confirmation'],ENT_COMPAT | ENT_HTML5 |ENT_
                     <div class="form-group">
                         <label for="name">confirmation</label>
                         <input type="text" name="confirmation" placeholder=" the 8 characters send by mail"  class="form-control" />
+
                     </div>
 
 
 
                     <div class="form-group">
                         <input type="submit" name="form" value="send" class="btn btn-primary" />
+
                         <input type="submit" name="sendmail" value="send another mail" class="btn btn-primary" />
                     </div>
                 </fieldset>

@@ -26,7 +26,6 @@ function GetUserById($userId){
   try {
      $request->execute([$userId]);
 $result=$request->fetch();
-     //echo $result['nom'];
      return $result;
       }
   catch(Exception $ex) {
@@ -39,11 +38,6 @@ Get the public data  from his loging
 Use for login
 
 */
-
-
-
-
-
 function GetUser($login){
   $con=connexion();
   $query='SELECT nom,prenom,mot_de_passe,profil_user,id_user FROM users WHERE login =?' ;
@@ -63,7 +57,7 @@ function GetUser($login){
 
 
 Get all  the data of the one logged
-except the password, better safe than sorry ^^
+except the password, even if it's wouldn't be a problem as it is  encrypted
 */
 
 function GetAllContentOfaUser($login){
@@ -81,7 +75,10 @@ function GetAllContentOfaUser($login){
   }
 }
 
+/*
+Get all the users we got in the db to send message, or transfert money
 
+*/
 
 function  GetAllUser(){
   $con=connexion();
@@ -126,6 +123,10 @@ function searchemail($id){
 }
 /*
 each time you try to connect add a a value there
+
+This is to avoid brute force attack on a login
+
+
 */
 function inserttry($logintry){
   try {
@@ -141,8 +142,12 @@ function inserttry($logintry){
 
 
 /*
-count try you a login connected in the last minute
+count how much   a login tried to  connect in the last minute
+
+If it's >4 it is blocked for 1 minute
 */
+
+
 function counttry($logintry){
   try {
   $con=connexion();
@@ -185,7 +190,7 @@ to send msg
 function insertmsg($iduser,$idUserReceiver,$content,$subject){
   try {
     $con=connexion();
-    $query='insert  into  messages (`id_user_to`,`id_user_from`,sujet_msg,corps_msg)   values (?,?,?,?)';
+    $query='insert  into  messages (`id_user_from`,`id_user_to`,sujet_msg,corps_msg)   values (?,?,?,?)';
     $request = $con->prepare($query);
     $request->execute([$iduser,$idUserReceiver,$content,$subject]);
     return 1;
@@ -212,7 +217,14 @@ function HasTheRighttoSendtoo(){
   }
 }
 
+/*
+Transfert money
 
+Fait sous une transaction pour éviter les problèmes si seulement une requete est envoyé
+
+respect l'atomicité
+
+*/
 
 
 function transfert($dest, $src, $value)
