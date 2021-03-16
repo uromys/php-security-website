@@ -4,7 +4,7 @@
 function connexion() {
     try {
         $connexion = new PDO('mysql:host=localhost;dbname=projetsr03;charset=utf8','admin','admin');
-
+        // in real life ,password are in config file which are not put online ! This is to facilitate my launch in docker 
         return $connexion;
         //echo 'Connexion etabli';
     }
